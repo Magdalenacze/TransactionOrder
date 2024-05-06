@@ -1,7 +1,7 @@
 package com.example.transactionorder.controller;
 
-import com.example.transactionorder.model.Product;
-import com.example.transactionorder.service.Service;
+import com.example.transactionorder.dto.ProductDto;
+import com.example.transactionorder.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/products")
 @AllArgsConstructor
-public class Controller {
+public class ProductController {
 
-    private final Service service;
+    private final ProductService productService;
 
     @PostMapping
-    public void addProduct(@RequestBody Product product) {
-        service.addProduct(product);
+    public void addProduct(@RequestBody ProductDto productDto) {
+        productService.addProduct(productDto);
     }
 }
