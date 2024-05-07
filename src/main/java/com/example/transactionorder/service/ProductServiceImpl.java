@@ -16,8 +16,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addProduct(ProductDto productDto) {
-        ProductEntity productEntity = new ProductEntity(productDto.getName(), productDto.getQuantity());
-        productRepository.save(productEntity);
+        try {
+            ProductEntity productEntity = new ProductEntity(productDto.getName(), productDto.getQuantity());
+            productRepository.save(productEntity);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
