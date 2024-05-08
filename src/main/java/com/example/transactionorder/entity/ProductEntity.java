@@ -25,6 +25,10 @@ public class ProductEntity {
         this.quantity = quantity;
     }
 
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     private void validate(String name, Integer quantity) {
         if (name == null || name.length() == 0) {
             throw new ProductException("Product name must not be blank!");
