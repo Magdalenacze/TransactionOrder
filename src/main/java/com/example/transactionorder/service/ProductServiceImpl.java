@@ -2,6 +2,7 @@ package com.example.transactionorder.service;
 
 import com.example.transactionorder.dto.ProductDto;
 import com.example.transactionorder.entity.ProductEntity;
+import com.example.transactionorder.exception.ProductException;
 import com.example.transactionorder.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
             ProductEntity productEntity = new ProductEntity(productDto.getName(), productDto.getQuantity());
             productRepository.save(productEntity);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new ProductException(e.getMessage());
         }
     }
 

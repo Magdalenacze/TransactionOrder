@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,5 +25,17 @@ public class OrderEntity {
     public OrderEntity(String productName, Integer quantityOrdered) {
         this.productName = productName;
         this.quantityOrdered = quantityOrdered;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderEntity that)) return false;
+        return Objects.equals(productName, that.productName) && Objects.equals(quantityOrdered, that.quantityOrdered);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productName, quantityOrdered);
     }
 }
