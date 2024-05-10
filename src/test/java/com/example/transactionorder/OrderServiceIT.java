@@ -82,4 +82,19 @@ public class OrderServiceIT {
                 .isInstanceOf(OrderException.class)
                 .hasMessageContaining("Sorry, this product is currently out of stock!");
     }
+
+    @Test
+    void should_get_order_successfully() {
+        // given
+        ProductDto exampleProduct = new ProductDto("GetProduct", 3);
+        OrderDto exampleOrder = new OrderDto("GetProduct", 1);
+        productService.addProduct(exampleProduct);
+        orderService.addOrder(exampleOrder);
+
+        // when
+        List<OrderDto> orders = orderService.getOrders();
+
+        // then
+        assertThat(orders).containsExactlyInAnyOrder(exampleOrder);
+    }
 }

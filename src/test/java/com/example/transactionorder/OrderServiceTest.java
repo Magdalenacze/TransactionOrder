@@ -19,13 +19,13 @@ public class OrderServiceTest {
     private OrderService orderServiceSuT;
 
     @Autowired
-    private ProductService productServiceSuT;
+    private ProductService productService;
 
     @Test
     public void should_add_order_successfully() {
         // given
         ProductDto exampleProduct = new ProductDto("AddProduct", 3);
-        productServiceSuT.addProduct(exampleProduct);
+        productService.addProduct(exampleProduct);
         OrderDto exampleOrder = new OrderDto("AddProduct", 3);
 
         // when
@@ -48,5 +48,20 @@ public class OrderServiceTest {
                 .isInstanceOf(OrderException.class)
                 .hasMessageContaining("Sorry, your order cannot be processed due to " +
                         "the product being out of stock!");
+    }
+
+    @Test
+    public void should_get_order_successfully() {
+        // given
+        ProductDto exampleProduct = new ProductDto("GetProduct", 3);
+        productService.addProduct(exampleProduct);
+        OrderDto exampleOrder = new OrderDto("GetProduct", 1);
+        orderServiceSuT.addOrder(exampleOrder);
+
+        // when
+        Throwable thrown = catchThrowable(() -> orderServiceSuT.getOrders());
+
+        // then
+        assertThat(thrown).doesNotThrowAnyException();
     }
 }
