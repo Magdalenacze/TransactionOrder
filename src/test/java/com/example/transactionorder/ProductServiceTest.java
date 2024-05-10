@@ -41,4 +41,19 @@ public class ProductServiceTest {
                 .isInstanceOf(ProductException.class)
                 .hasMessageContaining("Product quantity must not be null!");
     }
+
+    @Test
+    void should_not_allow_delete_product_that_does_not_exist() {
+        // given
+        ProductDto exampleProduct = new ProductDto("Product", 1);
+        productServiceSuT.addProduct(exampleProduct);
+
+        // when
+        Throwable thrown = catchThrowable(() -> productServiceSuT.deleteProductOutOfStock("OtherProduct"));
+
+        // then
+        assertThat(thrown)
+                .isInstanceOf(ProductException.class)
+                .hasMessageContaining("Sorry, this product does not exist!");
+    }
 }

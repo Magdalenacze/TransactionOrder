@@ -3,6 +3,7 @@ package com.example.transactionorder;
 import com.example.transactionorder.dto.OrderDto;
 import com.example.transactionorder.dto.ProductDto;
 import com.example.transactionorder.entity.OrderEntity;
+import com.example.transactionorder.entity.ProductEntity;
 import com.example.transactionorder.exception.OrderException;
 import com.example.transactionorder.repository.OrderRepository;
 import com.example.transactionorder.repository.ProductRepository;
@@ -50,11 +51,11 @@ public class OrderServiceIT {
     void should_add_order_with_product_in_stock() {
         // given
         ProductDto exampleProduct = new ProductDto("AddProduct", 3);
+        productService.addProduct(exampleProduct);
         OrderDto exampleOrder = new OrderDto("AddProduct", 1);
         OrderEntity referenceOrderEntity = new OrderEntity(
                 exampleOrder.getProductName(),
                 exampleOrder.getQuantityOrdered());
-        productService.addProduct(exampleProduct);
 
         // when
         orderService.addOrder(exampleOrder);
@@ -71,8 +72,8 @@ public class OrderServiceIT {
     void should_not_allow_add_order_with_product_out_of_stock() {
         // given
         ProductDto exampleProduct = new ProductDto("AddProduct", 1);
-        OrderDto exampleOrder = new OrderDto("AddProduct", 3);
         productService.addProduct(exampleProduct);
+        OrderDto exampleOrder = new OrderDto("AddProduct", 3);
 
         // when
         Throwable thrown = catchThrowable(() -> orderService.addOrder(exampleOrder));
@@ -87,8 +88,8 @@ public class OrderServiceIT {
     void should_get_order_successfully() {
         // given
         ProductDto exampleProduct = new ProductDto("GetProduct", 3);
-        OrderDto exampleOrder = new OrderDto("GetProduct", 1);
         productService.addProduct(exampleProduct);
+        OrderDto exampleOrder = new OrderDto("GetProduct", 1);
         orderService.addOrder(exampleOrder);
 
         // when
@@ -96,5 +97,20 @@ public class OrderServiceIT {
 
         // then
         assertThat(orders).containsExactlyInAnyOrder(exampleOrder);
+    }
+
+    @Test
+    void should_delete_unavailable_product_successfully() {
+        // given
+        ProductDto exampleProduct = new ProductDto("AddProduct", 1);
+        productService.addProduct(exampleProduct);
+        OrderDto exampleOrder = new OrderDto("AddProduct", 1);
+
+        // when
+        orderService.addOrder(exampleOrder);
+
+        // then
+        List<ProductEntity> entities = productRepository.findAll();
+        assertThat(entities).hasSize(0);
     }
 }

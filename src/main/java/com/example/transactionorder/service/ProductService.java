@@ -9,4 +9,6 @@ public interface ProductService {
     void addProduct(ProductDto productDto);
 
     List<ProductDto> getProducts();
+
+    void deleteProductOutOfStock(String name);
 }
