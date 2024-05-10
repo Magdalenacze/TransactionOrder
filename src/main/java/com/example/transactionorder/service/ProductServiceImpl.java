@@ -32,4 +32,14 @@ public class ProductServiceImpl implements ProductService {
                 .map(e -> new ProductDto(e.getName(), e.getQuantity()))
                 .toList();
     }
+
+    @Override
+    public void deleteProductOutOfStock(String name) {
+        try {
+        if (productRepository.findByName(name).get().isQualified()) {
+            productRepository.deleteByName(name);
+        }} catch (Exception e) {
+                throw new ProductException("Sorry, this product does not exist!");
+        }
+    }
 }

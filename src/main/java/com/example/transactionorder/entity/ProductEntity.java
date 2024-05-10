@@ -41,7 +41,11 @@ public class ProductEntity {
         if (this.quantity < quantityOrdered) {
             throw new OrderException("Sorry, this product is currently out of stock!");
         }
-        this. quantity -= quantityOrdered;
+        this.quantity -= quantityOrdered;
+    }
+
+    public boolean isQualified() {
+        return this.quantity == 0;
     }
 
     @Override

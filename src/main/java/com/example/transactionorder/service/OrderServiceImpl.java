@@ -17,6 +17,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private final ProductService productService;
 
     @Override
     @Transactional
@@ -27,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
                     return new OrderEntity(orderDto.getProductName(), orderDto.getQuantityOrdered());
                 }).orElseThrow(() -> new OrderException(
                         "Sorry, your order cannot be processed due to the product being out of stock!"));
+        productService.deleteProductOutOfStock(orderDto.getProductName());
         orderRepository.save(orderEntity);
     }
 
