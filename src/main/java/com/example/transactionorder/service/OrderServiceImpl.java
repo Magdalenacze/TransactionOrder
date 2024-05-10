@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -26,5 +28,13 @@ public class OrderServiceImpl implements OrderService {
                 }).orElseThrow(() -> new OrderException(
                         "Sorry, your order cannot be processed due to the product being out of stock!"));
         orderRepository.save(orderEntity);
+    }
+
+    @Override
+    public List<OrderDto> getOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .map(e -> new OrderDto(e.getProductName(), e.getQuantityOrdered()))
+                .toList();
     }
 }
