@@ -6,8 +6,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
-public class ProductDto {
+public class OrderDto {
 
-    private String name;
-    private Integer quantity;
+    private String productName;
+    private Integer quantityOrdered;
 }

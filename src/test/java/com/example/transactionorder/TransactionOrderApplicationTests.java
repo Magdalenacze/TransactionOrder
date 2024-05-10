@@ -9,5 +9,4 @@ class TransactionOrderApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

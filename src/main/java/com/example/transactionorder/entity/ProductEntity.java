@@ -1,8 +1,11 @@
 package com.example.transactionorder.entity;
 
+import com.example.transactionorder.exception.OrderException;
 import com.example.transactionorder.exception.ProductException;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "products")
@@ -32,5 +35,24 @@ public class ProductEntity {
         if (quantity == null || quantity.equals(0)) {
             throw new ProductException("Product quantity must not be null!");
         }
+    }
+
+    public void updateStock(Integer quantityOrdered) {
+        if (this.quantity < quantityOrdered) {
+            throw new OrderException("Sorry, this product is currently out of stock!");
+        }
+        this. quantity -= quantityOrdered;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductEntity that)) return false;
+        return Objects.equals(name, that.name) && Objects.equals(quantity, that.quantity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, quantity);
     }
 }
